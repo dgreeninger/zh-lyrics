@@ -13,20 +13,26 @@ function writeHymn(hymn) {
 	document.getElementById('hymn').innerHTML += verses_html
 }
 
+function resetHymnClass(){
+	var x = document.getElementsByClassName("span_1_of_10");
+	var i;
+	for (i = 0; i < x.length; i++) {
+		x[i].className = "col span_1_of_10";
+	}
+
+}
+
 function searchZh(e) {
 	if (e.keyCode == 13) {
 		var results = '' 
 		var toSearch = document.getElementById("search-input").value.toUpperCase();
 		console.log(toSearch)
 		if (toSearch=='') {
-			document.getElementById('hymn').innerHTML = ''
+			document.getElementById('hymn').innerHTML = 'No Search Phrase'
+			resetHymnClass()
 		}
 		else {
-			var x = document.getElementsByClassName("span_1_of_10");
-			var i;
-			for (i = 0; i < x.length; i++) {
-				x[i].className = "col span_1_of_10";
-			}
+			resetHymnClass()
 			var results = _.select(zh, function(node, key){
 				text = JSON.stringify(node.verses).toUpperCase();
 				if(text.indexOf(toSearch)!=-1) {
@@ -35,6 +41,9 @@ function searchZh(e) {
 					document.getElementById(songId).className += ' found'
 				}
 			}); 
+			if (results.length < 1) {
+			  document.getElementById('hymn').innerHTML = 'No results found.'
+			}
 		}
 	}
 }
