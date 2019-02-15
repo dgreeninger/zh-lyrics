@@ -25,6 +25,7 @@ function resetHymnClass(){
 function searchZh(e) {
 	if (e.keyCode == 13) {
 		var results = '' 
+		var returnedResults = '' 
 		var toSearch = document.getElementById("search-input").value.toUpperCase();
 		console.log(toSearch)
 		if (toSearch=='') {
@@ -36,13 +37,16 @@ function searchZh(e) {
 			var results = _.select(zh, function(node, key){
 				text = JSON.stringify(node.verses).toUpperCase();
 				if(text.indexOf(toSearch)!=-1) {
-					results += node.title;
+					returnedResults += node.title;
 					songId = 'hymnNumber'+key
 					document.getElementById(songId).className += ' found'
 				}
 			}); 
-			if (results.length < 1) {
+			console.log(returnedResults.length)
+			if (returnedResults.length < 1) {
 			  document.getElementById('hymn').innerHTML = 'No results found.'
+			} else {
+			  document.getElementById('hymn').innerHTML = 'Select a red result from the right.'
 			}
 		}
 	}
